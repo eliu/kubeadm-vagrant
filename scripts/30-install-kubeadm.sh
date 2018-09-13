@@ -1,4 +1,19 @@
 #!/bin/sh
+#
+# Copyright 2018 Liu Hongyu
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
 
 K8S_YUM_VERSION=`echo $K8S_VERSION | cut -c 2-`
 # kubelet >= 1.9.0 requires kubernetes-cni 0.6.0
@@ -14,6 +29,16 @@ yum install -y \
     kubeadm-$K8S_YUM_VERSION \
     kubectl-$K8S_YUM_VERSION \
     kubernetes-cni-$CNI_VERSION
+
+# 
+# 解决 kubernetes-cni-0.5.1 未包含 portmap 插件导致 kube-dns 无法启动的问题 
+# http://forum.choerodon.io/t/topic/835/7
+# 
+if [ ! -f /opt/cni/bin/portmap ]; then
+    echo "Installing portmap ..."
+    curl -sSLo /opt/cni/bin/portmap https://github.com/projectcalico/cni-plugin/releases/download/v1.9.1/portmap
+    chmod +x /opt/cni/bin/portmap
+fi
 
 systemctl enable kubelet
 systemctl start kubelet
