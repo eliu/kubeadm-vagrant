@@ -21,7 +21,7 @@ usermod -aG dockerroot vagrant
 cat > /etc/docker/daemon.json <<EOF
 {
     "group": "dockerroot",
-    "registry-mirrors": ["https://registry.docker-cn.com"]
+    "registry-mirrors": ["http://4a0fee72.m.daocloud.io"]
 }
 EOF
 systemctl enable docker
