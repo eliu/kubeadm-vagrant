@@ -1,0 +1,4 @@
+{
+  "group": "dockerroot",
+  "registry-mirrors": ["hub-mirror.c.163.com","registry.docker-cn.com"]
+}

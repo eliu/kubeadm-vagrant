@@ -14,15 +14,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-yum -y install docker socat
+echo "Installing docker..."
+yum install -y -q docker socat >/dev/null 2>&1
 usermod -aG dockerroot vagrant
-# http://docker-cn.com/registry-mirror
-cat > /etc/docker/daemon.json <<EOF
-{
-    "group": "dockerroot",
-    "registry-mirrors": ["hub-mirror.c.163.com","registry.docker-cn.com"]
-}
-EOF
+\cp -f /vagrant/etc/docker/daemon.json /etc/docker/daemon.json
 systemctl enable docker
 systemctl start docker

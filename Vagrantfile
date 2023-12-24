@@ -39,8 +39,6 @@ Vagrant.configure("2") do |config|
 
     # echo "Installing packages ..."
     # yum -y update && yum -y upgrade
-
-    echo "Installing docker ..."
     /vagrant/scripts/20-install-docker.sh
 
     echo "Installing kubeadm ..."
