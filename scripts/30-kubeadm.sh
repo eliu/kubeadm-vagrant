@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 #
 # Copyright 2018 Liu Hongyu
 #
@@ -14,16 +14,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-K8S_YUM_VERSION=`echo $K8S_VERSION | cut -c 2-`
+echo "Installing kubeadm ..."
+K8S_YUM_VERSION=$(echo $K8S_VERSION | cut -c 2-)
 # kubelet >= 1.9.0 requires kubernetes-cni 0.6.0
 # kubelet >= 1.5.4 requires kubernetes-cni 0.5.1 
-K8S_MINOR=`echo $K8S_YUM_VERSION | awk -F'.' '{print $2}'`
-if [[ $K8S_MINOR -ge 9 ]]; then
-    CNI_VERSION=0.6.0
-else
-    CNI_VERSION=0.5.1
-fi
+K8S_MINOR=$(echo $K8S_YUM_VERSION | awk -F'.' '{print $2}')
+[[ $K8S_MINOR -ge 9 ]] && CNI_VERSION="0.6.0" || CNI_VERSION="0.5.1"
+
 yum install -y \
     kubelet-$K8S_YUM_VERSION \
     kubeadm-$K8S_YUM_VERSION \
@@ -60,7 +57,7 @@ cat > /etc/kubernetes/kubeadm-config.yaml <<EOF
 apiVersion: kubeadm.k8s.io/v1alpha1
 kind: MasterConfiguration
 api:
-  advertiseAddress: "$ADVERTISE_ADDR"
+  advertiseAddress: "$K8S_ADVERTISE_ADDR"
 networking:
   podSubnet: "10.244.0.0/16"
 kubernetesVersion: "$K8S_VERSION"

@@ -15,36 +15,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-NETWORK_IP  = '192.168.119.101'
-HOSTNAME    = 'k8s-master'
+MACHINE_IP  = '192.168.119.101'
+MACHINE_HOSTNAME = 'k8s-master'
 K8S_VERSION = 'v1.11.2'
 
 Vagrant.configure("2") do |config|
   config.vm.box = "bento/centos-7"
-  config.vm.network "private_network", ip: "#{NETWORK_IP}"
+  config.vm.network "private_network", ip: "#{MACHINE_IP}"
   config.vm.provider "virtualbox" do |vb|
     vb.memory = 2048
     vb.cpus = 2
   end
 
-  config.vm.provision "shell", inline: <<-SHELL
+  config.vm.provision "shell", keep_color: true, inline: <<-SHELL
     export K8S_VERSION=#{K8S_VERSION}
-    export ADVERTISE_ADDR=#{NETWORK_IP}
+    export K8S_ADVERTISE_ADDR=#{MACHINE_IP}
+    export VG_MACHINE_IP=#{MACHINE_IP}
+    export VG_MACHINE_HOSTNAME=#{MACHINE_HOSTNAME}
 
-    hostnamectl set-hostname #{HOSTNAME}
-    echo "#{NETWORK_IP} #{HOSTNAME}" >> /etc/hosts
-  
-    echo "Pre-config system ..."
-    /vagrant/scripts/10-pre-config.sh
-
-    # echo "Installing packages ..."
-    # yum -y update && yum -y upgrade
-    /vagrant/scripts/20-install-docker.sh
-
-    echo "Installing kubeadm ..."
-    /vagrant/scripts/30-install-kubeadm.sh
-
-    echo "Installing k8s using kubeadm ..."
-    /vagrant/scripts/40-install-k8s.sh
+    # for path_to_script in $(ls /vagrant/scripts/*.sh); do
+    #   $path_to_script
+    # done
+    /vagrant/scripts/10-prepare.sh
   SHELL
 end

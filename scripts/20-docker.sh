@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 #
 # Copyright 2018 Liu Hongyu
 #
@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 echo "Installing docker..."
-yum install -y -q docker socat >/dev/null 2>&1
+yum install -y docker socat
 usermod -aG dockerroot vagrant
 \cp -f /vagrant/etc/docker/daemon.json /etc/docker/daemon.json
 systemctl enable docker
