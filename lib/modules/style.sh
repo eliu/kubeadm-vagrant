@@ -1,6 +1,5 @@
-#!/usr/bin/env bash
 #
-# Copyright 2018 Liu Hongyu
+# Copyright(c) 2020-2023 Liu Hongyu
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,9 +13,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-echo "Installing docker..."
-yum install -y docker socat
-usermod -aG dockerroot vagrant
-\cp -f /vagrant/etc/docker/daemon.json /etc/docker/daemon.json
-systemctl enable docker
-systemctl start docker
+STYLE_GREEN="\e[32m"
+STYLE_YELLOW="\e[33m"
+STYLE_RED="\e[91m"
+STYLE_CYAN="\e[36m"
+STYLE_RESET="\e[39m"
+
+style::green() { echo -e "$STYLE_GREEN$@$STYLE_RESET"
+}
+style::yellow() { echo -e "$STYLE_YELLOW$@$STYLE_RESET"
+}
+style::red() { echo -e "$STYLE_RED$@$STYLE_RESET"
+}
+style::cyan() { echo -e "$STYLE_CYAN$@$STYLE_RESET"
+}

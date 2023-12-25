@@ -21,6 +21,7 @@ K8S_VERSION = 'v1.11.2'
 
 Vagrant.configure("2") do |config|
   config.vm.box = "bento/centos-7"
+  config.vm.box_check_update = false
   config.vm.network "private_network", ip: "#{MACHINE_IP}"
   config.vm.provider "virtualbox" do |vb|
     vb.memory = 2048
@@ -32,10 +33,14 @@ Vagrant.configure("2") do |config|
     export K8S_ADVERTISE_ADDR=#{MACHINE_IP}
     export VG_MACHINE_IP=#{MACHINE_IP}
     export VG_MACHINE_HOSTNAME=#{MACHINE_HOSTNAME}
+    export MODULE_ROOT="/vagrant/lib/modules"
+    source $MODULE_ROOT/logging.sh
+    source $MODULE_ROOT/network.sh
 
-    # for path_to_script in $(ls /vagrant/scripts/*.sh); do
-    #   $path_to_script
-    # done
-    /vagrant/scripts/10-prepare.sh
+    network::resolve_dns
+
+    for path_to_script in $(ls /vagrant/scripts/*.sh); do
+      $path_to_script
+    done
   SHELL
 end

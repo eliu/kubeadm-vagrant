@@ -1,20 +1,5 @@
 #!/usr/bin/env bash
-#
-# Copyright 2018 Liu Hongyu
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
-
+set -e
 #===  FUNCTION  ================================================================
 #         NAME: kubeadm_init
 #  DESCRIPTION: Launch kubeadm to bring up a k8s cluster.
@@ -82,10 +67,10 @@ function main() {
 
   cat << "EOF"
 
-  __         __                   __                                                  __ 
-  / /____  __/ /_  ___  ____ _____/ /___ ___       _   ______ _____ __________ _____  / /_
-/ //_/ / / / __ \/ _ \/ __ `/ __  / __ `__ \_____| | / / __ `/ __ `/ ___/ __ `/ __ \/ __/
-/ ,< / /_/ / /_/ /  __/ /_/ / /_/ / / / / / /_____/ |/ / /_/ / /_/ / /  / /_/ / / / / /_  
+    __         __                   __                                                  __ 
+   / /____  __/ /_  ___  ____ _____/ /___ ___       _   ______ _____ __________ _____  / /_
+  / //_/ / / / __ \/ _ \/ __ `/ __  / __ `__ \_____| | / / __ `/ __ `/ ___/ __ `/ __ \/ __/
+ / ,< / /_/ / /_/ /  __/ /_/ / /_/ / / / / / /_____/ |/ / /_/ / /_/ / /  / /_/ / / / / /_  
 /_/|_|\__,_/_.___/\___/\__,_/\__,_/_/ /_/ /_/      |___/\__,_/\__, /_/   \__,_/_/ /_/\__/  
                                                             /____/                        
                                                                                       
